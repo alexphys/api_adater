@@ -1,0 +1,113 @@
+host: https://uat-inapi-gateway.it.pccwglobal.com:8243
+namespace: remedy-service
+
+client_options:
+  ssl_verifypeer: false
+
+headers: &default_headers
+  userKey: ca2ec64b-dd79-4d66-91c9-b2580d659e1e
+  Authorization: Bearer e12d42fceaea5601b5388e59cd7b6958
+  Content-Type: application/json
+
+argument_mapping: &default_argument_mapping
+  customer_id: customerID
+  sale_record_id: SRID
+  id: ticketID
+  from_time: FaultFromTime
+  to_time: FaultToTime
+  case_type: caseType
+  ticket_status: ticketStatus
+
+
+actions:
+  create:
+    arguments:
+      optional:
+        - summary
+        - product_category
+        - product_type
+        - product_service_item
+        - description
+        - source
+        - sale_record_id
+        - customer_name
+        - gsmp_circuit_id
+        - fault_case
+        - fault_location
+        - resolved_time
+    endpoint:
+      path: createTicket
+
+  #update:
+
+
+  find_by_customer_id:
+    argument_mapping:
+      <<: *default_argument_mapping
+    arguments:
+      required:
+        - customer_id
+      optional:
+        - from_time
+        - to_time
+        - case_type
+        - status
+    endpoint:
+      path: getRemedyTickets
+      verb: post
+      headers:
+        <<: *default_headers
+      body:
+        - customer_id
+        - from_time
+        - to_time
+        - case_type
+        - ticket_status
+
+  find_by_sale_record_id:
+    argument_mapping:
+      <<: *default_argument_mapping
+    arguments:
+      required:
+        - sale_record_id
+      optional:
+        - from_time
+        - to_time
+        - case_type
+        - status
+    endpoint:
+      path: getRemedyTickets
+      verb: post
+      headers:
+        <<: *default_headers
+      body:
+        - sale_record_id
+        - from_time
+        - to_time
+        - case_type
+        - ticket_status
+
+  find:
+    argument_mapping:
+      <<: *default_argument_mapping
+    arguments:
+      required:
+        - id
+      optional:
+        - from_time
+        - to_time
+        - case_type
+        - status
+    endpoint:
+      path: getRemedyTickets
+      verb: post
+      headers:
+        <<: *default_headers
+      body:
+        - id
+        - from_time
+        - to_time
+        - case_type
+        - ticket_status
+
+  # delete:

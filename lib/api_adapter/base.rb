@@ -102,10 +102,10 @@ class ApiAdapter::Base
 
   def parse_response(response, content_type = 'application/json')
     case content_type
-    when 'application/json'
-      JSON.parse(response)
     when 'xml'
       XmlSimple.xml_in(response)
+    else
+      JSON.parse(response)
     end
   end
 

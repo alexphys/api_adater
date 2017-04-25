@@ -8,7 +8,7 @@ class ApiAdapter::Generator
 
     @defaults = {
       headers: {
-        "Content-Type" => 'application/json'
+        :"Content-Type" => 'application/json'
       }
     }
 

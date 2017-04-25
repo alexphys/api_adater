@@ -13,7 +13,7 @@ class ApiAdapter::Base
 
   # params includes body, params and dynamic segment arguments
   def http_call(url, params, config)
-    config[:body] = params[:body].to_json if params[:body]
+    config[:body] = params[:body] if params[:body]
     config[:params] = params[:params] if params[:params]
     config[:headers].merge dynamic_headers if dynamic_headers
 

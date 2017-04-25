@@ -1,0 +1,28 @@
+host: https://uat-api.pccwg-osp.com/
+
+client_options:
+  ssl_verifypeer: false
+
+headers: &defauls_headers
+  Content-Type: application/x-www-form-urlencoded
+  Authorization: Basic QjZYVmZfNlVEb2JjdW1VUGtrbGFlZnZObDIwYTpDY3JIZVJ6SXYyM205ZTBYcUw3dl8wdWZwa1Fh
+
+actions:
+  get_token:
+    arguments:
+      required:
+        - username
+        - password
+        - grant_type
+    endpoint:
+      path: token
+      verb: post
+  refresh_token:
+    arguments:
+      required:
+        - grant_type
+        - refresh_token
+    endpoint:
+      path: token
+      verb: post
+

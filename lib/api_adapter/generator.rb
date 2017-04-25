@@ -128,7 +128,9 @@ private
       namespace = resource_config.namespace
       endpoint = action_object.endpoint.path
       raise RuntimeError.new "Undefined endpoint path" if endpoint.nil?
-      [host, namespace, endpoint].reject(&:nil?).join('/')
+      [host, namespace, endpoint].reject{|s| s.nil? || s.empty?}.map{|s|
+       s[-1] == "/" ? s[0..-2] : s
+      }.join('/')
   end
 
   # Verb is optional. Default is GET.

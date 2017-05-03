@@ -79,8 +79,12 @@ private
     method_text = <<-CODE
       def #{method_name}(args = {})
         request = request_for_#{method_name} args
-        response = request.run.body
-        parse_response response, "#{content_type}"
+        response = request.run
+        if response.success?
+          parse_response response.body, "#{content_type}"
+        else
+          {status: response.code}
+        end
       end
     CODE
     adapter_class.class_eval method_text

@@ -15,7 +15,7 @@ class ApiAdapter::Base
   def http_call(url, params, config)
     config[:body] = params[:body] if params[:body]
     config[:params] = params[:params] if params[:params]
-    config[:headers].merge dynamic_headers if dynamic_headers
+    config[:headers].merge! dynamic_headers if dynamic_headers
 
     request = Typhoeus::Request.new(url, config)
 
@@ -27,7 +27,7 @@ class ApiAdapter::Base
       elsif response.code == 0
         logger.info(response.return_message)
       else
-        logger.warn("HTTP request for #{url} failed: " + response.code.to_s)
+        logger.warn("HTTP request for #{url} failed: " + response.code.to_s + " " + response.response_body)
       end
     end
     request

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'api_adapter'
-  s.version     = '0.0.7'
+  s.version     = '0.0.10'
   s.date        = '2017-03-28'
   s.summary     = "API adapter generator"
   s.description = ""

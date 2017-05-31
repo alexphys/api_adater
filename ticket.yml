@@ -1,113 +1,294 @@
-host: https://uat-inapi-gateway.it.pccwglobal.com:8243
-namespace: remedy-service
+host: https://uat-api.pccwg-osp.com/
+namespace: ticketManagement/1.0.0
 
 client_options:
   ssl_verifypeer: false
 
 headers: &default_headers
-  userKey: ca2ec64b-dd79-4d66-91c9-b2580d659e1e
-  Authorization: Bearer e12d42fceaea5601b5388e59cd7b6958
   Content-Type: application/json
 
-argument_mapping: &default_argument_mapping
-  customer_id: customerID
-  sale_record_id: SRID
-  id: ticketID
-  from_time: FaultFromTime
-  to_time: FaultToTime
-  case_type: caseType
-  ticket_status: ticketStatus
-
-
 actions:
+
   create:
     arguments:
       optional:
-        - summary
-        - product_category
-        - product_type
-        - product_service_item
-        - description
-        - source
-        - sale_record_id
-        - customer_name
-        - gsmp_circuit_id
-        - fault_case
+        - msrn_no
+        - fault_nature_id
+        - fault_cause
+        - originating_ip
+        - destination_id
+        - mobile_no
+        - calling_no_a
+        - fault_description
+        - contact_no
+        - dpc
         - fault_location
-        - resolved_time
-    endpoint:
-      path: createTicket
-
-  #update:
-
-
-  find_by_customer_id:
-    argument_mapping:
-      <<: *default_argument_mapping
-    arguments:
-      required:
-        - customer_id
-      optional:
-        - from_time
-        - to_time
+        - reported_by
+        - email
+        - group
+        - opc
+        - reported_source
+        - contact_person
+        - service_sub_type_id
         - case_type
-        - status
+        - protocol_id
+        - terminating_ip
+        - priority
+        - called_no_b
+        - sr_id
+        - breakout
+        - user_id
+        - traffic_type_id
+        - reported_time
+      optional:
     endpoint:
-      path: getRemedyTickets
+      path: tickets
       verb: post
+      json_body: true
       headers:
         <<: *default_headers
-      body:
-        - customer_id
-        - from_time
-        - to_time
+      body: 
+        - msrn_no
+        - fault_nature_id
+        - fault_cause
+        - originating_ip
+        - destination_id
+        - mobile_no
+        - calling_no_a
+        - fault_description
+        - contact_no
+        - dpc
+        - fault_location
+        - reported_by
+        - email
+        - group
+        - opc
+        - reported_source
+        - contact_person
+        - service_sub_type_id
         - case_type
-        - ticket_status
+        - protocol_id
+        - terminating_ip
+        - priority
+        - called_no_b
+        - sr_id
+        - breakout
+        - user_id
+        - traffic_type_id
+        - reported_time
 
-  find_by_sale_record_id:
-    argument_mapping:
-      <<: *default_argument_mapping
+
+  search:
     arguments:
       required:
-        - sale_record_id
+        - user_id
       optional:
-        - from_time
-        - to_time
+        - contact_person
+        - circuit_id
+        - status_id
+        - ticket_source
+        - gsmp_id
+        - created_by
+        - service_type_id
+        - submit_date_from
+        - submit_date_to
+        - ticket_no
+        - destination_id
+        - limit
+        - offset
+        - sort
+        - cust_id
+        - sr_id
         - case_type
-        - status
     endpoint:
-      path: getRemedyTickets
-      verb: post
+      path: tickets/list
+      verb: get
+      params:
+        - user_id
+        - contact_person
+        - circuit_id
+        - status_id
+        - ticket_source
+        - gsmp_id
+        - created_by
+        - service_type_id
+        - submit_date_from
+        - submit_date_to
+        - ticket_no
+        - destination_id
+        - limit
+        - offset
+        - sort
+        - cust_id
+        - sr_id
+        - case_type
       headers:
         <<: *default_headers
-      body:
-        - sale_record_id
-        - from_time
-        - to_time
-        - case_type
-        - ticket_status
 
   find:
-    argument_mapping:
-      <<: *default_argument_mapping
     arguments:
       required:
-        - id
-      optional:
-        - from_time
-        - to_time
-        - case_type
-        - status
+        - ticket_id
+        - user_id
     endpoint:
-      path: getRemedyTickets
-      verb: post
+      path: tickets/:id
+      verb: get
+      params:
+        - ticket_id
+        - user_id
       headers:
         <<: *default_headers
-      body:
-        - id
-        - from_time
-        - to_time
-        - case_type
-        - ticket_status
 
-  # delete:
+  attachment:
+    arguments:
+      required:
+        - ticket_id
+        - attachment_id
+        - user_id
+      optional:
+    endpoint:
+      path: tickets/:ticket_id/attachments/:id
+      verb: get
+      params:
+        - ticket_id
+        - attachment_id
+        - user_id
+      headers:
+        <<: *default_headers
+
+  statuses:
+    arguments:
+      optional:
+        - lang
+    endpoint:
+      path: statuses/list
+      verb: get
+      params:
+        - lang
+      headers:
+        <<: *default_headers
+
+  destinations:
+    arguments:
+      optional:
+        - lang
+    endpoint:
+      path: destinations/list
+      verb: get
+      params:
+        - lang
+      headers:
+        <<: *default_headers
+
+  sales_records:
+    arguments:
+      required:
+        - user_id
+      optional:
+        - is_obsolete
+        - status
+        - service_type
+        - product_id
+        - cust_id
+        - keyword
+        - search_type
+        - limit
+        - offset
+        - sort
+    endpoint:
+      path: circuits/list
+      verb: get
+      params:
+        - user_id
+        - is_obsolete
+        - status
+        - service_type
+        - product_id
+        - cust_id
+        - keyword
+        - search_type
+        - limit
+        - offset
+        - sort
+      headers:
+        <<: *default_headers
+
+  # Used in search of Voice related tickets
+  protocols:
+    arguments:
+      optional:
+        - lang
+    endpoint:
+      path: protocols/list
+      verb: get
+      params:
+        - lang
+      headers:
+        <<: *default_headers
+
+
+  # used to search or create tickets
+  service_types:
+    arguments:
+      optional:
+        - lang
+    endpoint:
+      path: serviceTypes/list
+      verb:
+      params:
+        - lang
+      headers:
+        <<: *default_headers
+
+  circuit_lookup_types:
+    arguments:
+      optional:
+        - lang
+    endpoint:
+      path: circuitLookupTypes/list
+      verb: get
+      params:
+        - lang
+      headers:
+        <<: *default_headers
+
+  traffic_types:
+    arguments:
+      optional:
+        - lang
+    endpoint:
+      path: trafficTypes/list
+      verb: get
+      params:
+        - lang
+      headers:
+        <<: *default_headers
+
+  voice_service_subtypes:
+    arguments:
+      optional:
+        - lang
+    endpoint:
+      path: voiceServiceSubTypes/list
+      verb: get
+      params:
+        - lang
+      headers:
+        <<: *default_headers
+
+  fault_natures:
+    arguments:
+      required:
+        - service_type
+      optional:
+        - lang
+    endpoint:
+      path: serviceTypes/:service_type/faultNatures/list
+      verb: get
+      params:
+        - service_type
+        - lang
+      headers:
+        <<: *default_headers
+
+

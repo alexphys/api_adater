@@ -13,6 +13,11 @@ class ApiAdapter::Base
 
   # params includes body, params and dynamic segment arguments
   def http_call(url, params, config)
+
+    params[:body] = params[:body].to_json if params[:body] && config[:json_body]
+    puts config[:json_body]
+    config.delete(:json_body)
+
     config[:body] = params[:body] if params[:body]
     config[:params] = params[:params] if params[:params]
     config[:headers].merge! dynamic_headers if dynamic_headers
@@ -27,7 +32,7 @@ class ApiAdapter::Base
       elsif response.code == 0
         logger.info(response.return_message)
       else
-        logger.warn("HTTP request for #{url} failed: " + response.code.to_s + " " + response.response_body)
+        logger.error("HTTP request for #{url} failed: " + response.code.to_s + " " + response.response_body + "\n" + request.inspect)
       end
     end
     request

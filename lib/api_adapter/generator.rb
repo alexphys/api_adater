@@ -52,6 +52,7 @@ private
     config = resource_config && resource_config.client_options ? resource_config.client_options.to_h : {}
     config[:method] = method_verb(action_object)
     config[:headers] = extract_headers(action_object)
+    config[:json_body] = extract_json_body(action_object)
     body = extract_body(action_object)
     http_params = extract_params(action_object)
     method_text = <<-CODE
@@ -121,6 +122,13 @@ private
       action_object.arguments.optional
     else
       []
+    end
+  end
+
+  # if json_body is true then body should be serialized as json
+  def extract_json_body(action_object)
+    if action_object && action_object.endpoint
+      action_object.endpoint.json_body
     end
   end
 

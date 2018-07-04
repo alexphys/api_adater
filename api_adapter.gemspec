@@ -7,8 +7,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Giorgos Koumparoulis"]
   s.email       = 'gkoumparoulis@crypteianetworks.com'
   s.files       = ["lib/api_adapter.rb", "lib/api_adapter/base.rb", "lib/api_adapter/configuration.rb", "lib/api_adapter/generator.rb"]
-  s.homepage    =
-    'http://rubygems.org/gems/api_adapter'
+  s.homepage    = 'http://rubygems.org/gems/api_adapter'
   s.license       = 'MIT'
 
 

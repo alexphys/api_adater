@@ -4,7 +4,7 @@ class ApiAdapter::Generator
 
   attr_accessor :resource_name, :resource_config, :adapter_class, :defaults
 
-  def initialize(resource)
+  def initialize(resource, override_options = {})
 
     @defaults = {
       headers: {
@@ -14,6 +14,9 @@ class ApiAdapter::Generator
 
     @resource_name = resource.first.classify + "Adapter"
     @resource_config = resource.last
+    override_options.keys.each do |key|
+      @resource_config.send "#{key}=".to_sym, override_options[key]
+    end
     generate_class
     generate_all_methods
   end

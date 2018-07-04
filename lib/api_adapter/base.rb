@@ -28,9 +28,9 @@ class ApiAdapter::Base
       if response.success?
         logger.info("Request succeeded for #{url}")
       elsif response.timed_out?
-        logger.warn("Request timed out for #{url}")
+        logger.error("Request timed out for #{url}")
       elsif response.code == 0
-        logger.info(response.return_message)
+        logger.error(response.return_message)
       else
         logger.error("HTTP request for #{url} failed: " + response.code.to_s + " " + response.response_body + "\n" + request.inspect)
       end

@@ -1,10 +1,11 @@
 
 class ApiAdapter
 
-	attr_accessor :params
+	attr_accessor :params, :override_options
 
-	def initialize(params = {})
+	def initialize(params = {}, override_options = {})
 		@params = params
+    self.override_options = override_options
 		resources = load_resources
 		generate_adapters_for resources
 	end
@@ -17,7 +18,7 @@ class ApiAdapter
 
 	def generate_adapters_for(resources)
 		resources.each do |resource|
-			Generator.new resource
+			Generator.new resource, override_options
 		end
 
 	end
